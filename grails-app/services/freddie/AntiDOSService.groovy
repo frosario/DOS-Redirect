@@ -4,16 +4,22 @@ import freddie.Requests
 import groovy.time.*
 
 class AntiDOSService {
+    public AntiDOSService() {
+        def TIME_WINDOW_IN_SECONDS = 1
+        def MAX_REQUESTS_IN_WINDOW = 100
+        def timeWindow = new TimeDuration(0,0,TIME_WINDOW_IN_SECONDS,0)
+    }
 
-    public AntiDOSService(seconds=1,requests=100) {
-        this.TIME_WINDOW_IN_SECONDS = seconds
-        this.MAX_REQUESTS_IN_WINDOW = requests
-        this.timeWindow = new TimeDuration(0,0,TIME_WINDOW_IN_SECONDS,0)
+
+    public AntiDOSService(seconds, requests) {
+        def TIME_WINDOW_IN_SECONDS = seconds
+        def MAX_REQUESTS_IN_WINDOW = requests
+        def timeWindow = new TimeDuration(0,0,TIME_WINDOW_IN_SECONDS,0)
     }
 
 
     public Requests requestCountFor(address, action="") {
-        request = Requests.findOrCreateWhere(ipaddress: address)
+        def request = Requests.findOrCreateWhere(ipaddress: address)
         switch (action.toLowerCase()) {
             case "":
                 //Do nothing, will return request object after switch block
