@@ -1,7 +1,7 @@
 package org.dosredirect
 
 class Requests {
-    String ipaddress
+    String ipaddress = ""
     Integer visits = 0
     Date lastVisit = new Date()
 
