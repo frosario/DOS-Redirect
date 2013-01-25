@@ -4,9 +4,13 @@ import org.dosredirect.*
 class DosCheckController {
 
     def index() { 
-        def a = new AntiDOSService()
-        def b = a.requestCountFor("1.1.1.1","increase")
-        render b.visits
+        def ads = new AntiDOSService()
+        def ip = "1.1.1.1"
+        def visitRecord = ads.requestCountFor(ip)
+        visitRecord = ads.changeCount("increase",visitRecord)
+        render visitRecord.visits
+        
         //render request.getHeader("Client-IP")
     }
 }
+//TODO: Reset visit count if timewindow expires

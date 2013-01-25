@@ -3,24 +3,28 @@ import org.dosredirect.Requests
 import groovy.time.*
 
 class AntiDOSService {
+
+    protected Integer timeWindowInSeconds
+    protected Integer maxRequestsInWindow
+    protected TimeDuration timeWindow
+
+
     public AntiDOSService() {
-        def TIME_WINDOW_IN_SECONDS = 1
-        def MAX_REQUESTS_IN_WINDOW = 100
-        def timeWindow = new TimeDuration(0,0,TIME_WINDOW_IN_SECONDS,0)
+        timeWindowInSeconds = 1
+        maxRequestsInWindow = 100
+        timeWindow = new TimeDuration(0,0,timeWindowInSeconds,0)
     }
 
 
     public AntiDOSService(seconds, requests) {
-        def TIME_WINDOW_IN_SECONDS = seconds
-        def MAX_REQUESTS_IN_WINDOW = requests
-        def timeWindow = new TimeDuration(0,0,TIME_WINDOW_IN_SECONDS,0)
+        timeWindowInSeconds = seconds
+        maxRequestsInWindow = requests
+        timeWindow = new TimeDuration(0,0,timeWindowInSeconds,0)
     }
 
 
-    private countSwitch(action,record) {
+    public changeCount(action,record) {
         switch (action.toLowerCase()) {
-            case "":
-                //Do nothing, will return request object after switch block
             case "increase":
                 record.visits += 1
                 record.lastVisit = new Date()
@@ -35,35 +39,21 @@ class AntiDOSService {
 
 
     public Requests requestCountFor(address) {
-        def visitRecord = Requests.findOrCreateWhere(ipaddress: address)
-        visitRecord = countSwitch("",visitRecord)
-        return visitRecord
+        return Requests.findOrCreateWhere(ipaddress: address)
     }
 
 
-    public Requests requestCountFor(address,operation) {
-      def visitRecord = Requests.findOrCreateWhere(ipaddress: address)
-      visitRecord = countSwitch(operation,visitRecord)
-      return visitRecord
-    }
-
-
-    public boolean ipThresholdReached(address, increase=true) {
-        request = Requests.findOrCreateWhere(ipaddress: address)
-        durationSinceLastRequest = TimeCategory.minus(new Date(), request.lastVisit)
-        if (durationSinceLastRequest < timeWindow && request.visits > MAX_REQUESTS_IN_WINDOW) {
+    public boolean ipThresholdReached(address) {
+        def request = Requests.findOrCreateWhere(ipaddress: address)
+        def durationSinceLastRequest = TimeCategory.minus(new Date(), request.lastVisit)
+        if (durationSinceLastRequest < timeWindow && request.visits > maxRequestsInWindow) {
             return true
-        }
-        else if (increase == true) {
-            requestCountFor(address, action="increase")
-            return false
         }
         else {
             return false
         }
-
    }
+
 }
 
 
-//TODO: Reset visit count if timewindow expires
