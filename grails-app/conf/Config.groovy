@@ -21,10 +21,11 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+	
+	debug 'org.dosredirect.AntiDOSService'
 }
 
-antiDOS = { 
-    timeWindowInSeconds 1
-    maxRequestsInWindow 10
-}
+antiDOS.timeWindowInSeconds=1
+antiDOS.maxRequestsInWindow=10
+
 
