@@ -1,5 +1,4 @@
 package org.dosredirect
-//import grails.test.mixin.*
 import grails.test.*
 import org.junit.*
 
@@ -13,6 +12,8 @@ import org.junit.*
 @Mock(Requests)
 class AntiDOSServiceTests {
 
+
+    def ads = new AntiDOSService()
     def random = new Random()
 
 
@@ -38,24 +39,8 @@ class AntiDOSServiceTests {
     }
 
 
-    void testConstructorWithNoArguments() {
-        def ads = new AntiDOSService()
-        assertEquals(1, ads.timeWindowInSeconds)
-    }
-
-
-    void testConstructorWithArguments() {
-        def seconds = random.nextInt()
-        def requests = random.nextInt()
-        def ads = new AntiDOSService(seconds,requests)
-        assertEquals seconds, ads.timeWindowInSeconds
-        assertEquals requests, ads.maxRequestsInWindow
-    }
-
-
     void testChangeCountIncrease() {
         //Should increase count my 1 and update to current timestamp
-        def ads = new AntiDOSService()
         def request = new Requests()
         def beforeCount = request.visits
         def beforeDate = request.lastVisit
@@ -69,7 +54,6 @@ class AntiDOSServiceTests {
 
     void testChangeCountReset() {
         //Should reset count to 1 and lastVisit to current timestamp
-        def ads = new AntiDOSService()
         def request = new Requests(visits: 10, lastVisit: randomDate())
         def beforeCount = request.visits
         def beforeDate = request.lastVisit
@@ -82,14 +66,12 @@ class AntiDOSServiceTests {
 
 
     void testRequestCountForWithSingleArgument() {
-        def ads = new AntiDOSService()
         def record = ads.requestCountFor(randomIP())
         assertEquals record.getClass(), Requests
     }
 
 
     void testIpThresholdReached() {
-        def ads = new AntiDOSService()
         def ip = randomIP()
         def answer = ads.ipThresholdReached(ip)
         assertEquals Boolean, answer.getClass()

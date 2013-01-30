@@ -22,7 +22,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 	
-	debug 'org.dosredirect.AntiDOSService'
+    error 'org.dosredirect.AntiDOSService'
 }
 
 antiDOS.timeWindowInSeconds=1
