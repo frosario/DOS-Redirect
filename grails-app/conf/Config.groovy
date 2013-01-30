@@ -22,3 +22,9 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+antiDOS = { 
+    timeWindowInSeconds 1
+    maxRequestsInWindow 10
+}
+

@@ -1,5 +1,4 @@
 package org.dosredirect
-import org.dosredirect.Requests
 import groovy.time.*
 
 class AntiDOSService {
@@ -9,16 +8,12 @@ class AntiDOSService {
     protected TimeDuration timeWindow
 
 
+    def grailsApplication
+
+
     public AntiDOSService() {
-        timeWindowInSeconds = 1
-        maxRequestsInWindow = 100
-        timeWindow = new TimeDuration(0,0,timeWindowInSeconds,0)
-    }
-
-
-    public AntiDOSService(seconds, requests) {
-        timeWindowInSeconds = seconds
-        maxRequestsInWindow = requests
+        timeWindowInSeconds = grailsApplication.config.antiDOS.timeWindowInSeconds
+        maxRequestsInWindow = grailsApplication.config.antiDOS.maxRequestsInWindow
         timeWindow = new TimeDuration(0,0,timeWindowInSeconds,0)
     }
 
@@ -28,11 +23,11 @@ class AntiDOSService {
             case "increase":
                 record.visits += 1
                 record.lastVisit = new Date()
-                record.save()
+                record.save(flush:true)
             case "reset":
                 record.visits = 1
                 record.lastVisit = new Date()
-                record.save()
+                record.save(flush:true)
             return record
         }
     }

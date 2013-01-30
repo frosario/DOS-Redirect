@@ -19,7 +19,7 @@ your application. This is intended to be a stop gap until Amazon decides to impl
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/dosr-edirect"
+    def documentation = "http://github.com/frosario/DOS-Redirect"
 
     // Extra (optional) plugin metadata
 

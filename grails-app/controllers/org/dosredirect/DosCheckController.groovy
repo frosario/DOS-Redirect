@@ -1,13 +1,13 @@
 package org.dosredirect
-import org.dosredirect.*
 
 class DosCheckController {
 
+    AntiDOSService antiDOSService
+
     def index() { 
-        def ads = new AntiDOSService()
         def ip = "1.1.1.1"
-        def visitRecord = ads.requestCountFor(ip)
-        visitRecord = ads.changeCount("increase",visitRecord)
+        def visitRecord = antiDOSService.requestCountFor(ip)
+        visitRecord = antiDOSService.changeCount("increase",visitRecord)
         render visitRecord.visits
         
         //render request.getHeader("Client-IP")
