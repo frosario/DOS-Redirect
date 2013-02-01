@@ -25,7 +25,7 @@ log4j = {
     error 'org.dosredirect.AntiDOSService'
 }
 
-antiDOS.timeWindowInSeconds=1
-antiDOS.maxRequestsInWindow=10
-
+antiDOS.timeWindowInSeconds = 60
+antiDOS.maxRequestsInWindow = 10
+antiDOS.redirectURL = "http://192.168.1.1"
 

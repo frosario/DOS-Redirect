@@ -5,14 +5,12 @@ import org.springframework.beans.factory.InitializingBean;
 import groovy.time.*
 
 
-class AntiDOSService implements InitializingBean{
+class AntiDOSService implements InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger( AntiDOSService.class )
     protected Integer timeWindowInSeconds
     protected Integer maxRequestsInWindow
     protected TimeDuration timeWindow
-
-
     def grailsApplication
 
 	
@@ -53,11 +51,25 @@ class AntiDOSService implements InitializingBean{
     }
 
 
-    public boolean ipThresholdReached(address) {
-        def request = Requests.findOrCreateWhere(ipaddress: address)
+    public boolean ipThresholdReached(visit) {
+        Requests request
+        switch (visit.getClass()) {
+            case String:
+                request = Requests.findOrCreateWhere(ipaddress: visit)
+                break
+            case Requests:
+                request = visit
+                break
+            default:
+                throw new Exception("Argument must be a ip address string or Requests object")
+        }
         def durationSinceLastRequest = TimeCategory.minus(new Date(), request.lastVisit)
         if (durationSinceLastRequest < timeWindow && request.visits > maxRequestsInWindow) {
             return true
+        }
+        else if (durationSinceLastRequest > timeWindow) {
+            changeCount("reset",request)
+            return false
         }
         else {
             return false

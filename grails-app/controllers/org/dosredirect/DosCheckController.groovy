@@ -5,12 +5,15 @@ class DosCheckController {
     AntiDOSService antiDOSService
 
     def index() { 
-        def ip = "1.1.1.1"
+        def ip = request.getRemoteAddr()
         def visitRecord = antiDOSService.requestCountFor(ip)
-        visitRecord = antiDOSService.changeCount("increase",visitRecord)
-        render visitRecord.visits
-        
-        //render request.getHeader("Client-IP")
+        if (antiDOSService.ipThresholdReached(visitRecord)) {
+            antiDOSService.changeCount("increase",visitRecord)
+            redirect(url: grailsApplication.config.antiDOS.redirectURL)
+        }
+        else {
+            render "Not a DOS Attack"
+        }
     }
 }
-//TODO: Reset visit count if timewindow expires
+
