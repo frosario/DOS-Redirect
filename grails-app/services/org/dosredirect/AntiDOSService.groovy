@@ -45,8 +45,8 @@ class AntiDOSService implements InitializingBean {
 
     public Requests requestCountFor(address) {
         LOGGER.info("Looking for Requests object with ipaddress $address")
-        def requests = Requests.findOrCreateWhere(ipaddress: address)
-        LOGGER.info("requests.id is $requests.id")
+        def requests = Requests.findOrSaveWhere(ipaddress: address)
+        LOGGER.info("ID: $requests.id, VISITS: $requests.visits, LASTVISIT: $requests.lastVisit")
         return requests
     }
 
@@ -55,7 +55,7 @@ class AntiDOSService implements InitializingBean {
         Requests request
         switch (visit.getClass()) {
             case String:
-                request = Requests.findOrCreateWhere(ipaddress: visit)
+                request = Requests.findOrSaveWhere(ipaddress: visit)
                 break
             case Requests:
                 request = visit

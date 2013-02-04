@@ -1,5 +1,6 @@
 package org.dosredirect
 
+
 class DosCheckController {
 
     AntiDOSService antiDOSService
@@ -12,6 +13,7 @@ class DosCheckController {
             redirect(url: grailsApplication.config.antiDOS.redirectURL)
         }
         else {
+            antiDOSService.changeCount("increase",visitRecord)
             render "Not a DOS Attack"
         }
     }

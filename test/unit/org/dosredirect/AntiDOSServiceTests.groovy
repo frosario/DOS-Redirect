@@ -47,7 +47,7 @@ class AntiDOSServiceTests {
         def afterCount = request.visits
         def afterDate = request.lastVisit
         assert beforeCount < afterCount
-        assert beforeDate < afterDate
+        assertFalse beforeDate > afterDate
     }
 
 
