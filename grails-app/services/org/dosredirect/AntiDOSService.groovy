@@ -16,8 +16,18 @@ class AntiDOSService implements InitializingBean {
 	
     @Override
     public void afterPropertiesSet() throws Exception {
-        timeWindowInSeconds = grailsApplication.config.antiDOS.timeWindowInSeconds
-        maxRequestsInWindow = grailsApplication.config.antiDOS.maxRequestsInWindow
+        try {
+            timeWindowInSeconds = grailsApplication.config.antiDOS.timeWindowInSeconds
+        } catch (Exception e) {
+            LOGGER.error("Exception: " + e.getMessage())
+            timeWindowInSeconds = 1
+        }
+        try {
+            maxRequestsInWindow = grailsApplication.config.antiDOS.maxRequestsInWindow
+        } catch (Exception e) {
+            LOGGER.error("Exception: " + e.getMessage())
+            maxRequestsInWindow = 10
+        }
         LOGGER.debug("timeWindowInSeconds is $timeWindowInSeconds")
         LOGGER.debug("maxRequestsInWindow is $maxRequestsInWindow")
         timeWindow = new TimeDuration(0,0,timeWindowInSeconds,0)
@@ -30,13 +40,13 @@ class AntiDOSService implements InitializingBean {
         				LOGGER.info("increasing visit count on request with id $record.id")
                 record.visits += 1
                 record.lastVisit = new Date()
-                record.save(flush:true)
+                record.save()
         				break
             case "reset":
 				        LOGGER.info("resetting visit count on request with id $record.id")
                 record.visits = 1
                 record.lastVisit = new Date()
-                record.save(flush:true)
+                record.save()
         				break
             return record
         }

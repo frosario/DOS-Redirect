@@ -1,0 +1,24 @@
+<plugin name='org-dos-redirect' version='0.1' grailsVersion='2.2 &gt; *'>
+  <author>Freddie Rosario</author>
+  <authorEmail>frosario777@gmail.com</authorEmail>
+  <title>DOS Redirect Plugin</title>
+  <description>This plugin was created in order to address a security shortcoming with Amazon Elastic Beanstalk. There is currently no way to blacklist an ip address if it is performing a denial of service on your application. This is intended to be a stop gap until Amazon decides to implement that feature. </description>
+  <documentation>http://github.com/frosario/DOS-Redirect</documentation>
+  <type>OrgDosRedirectGrailsPlugin</type>
+  <resources>
+    <resource>org.dosredirect.DosCheckController</resource>
+    <resource>org.dosredirect.Requests</resource>
+    <resource>org.dosredirect.AntiDOSService</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+  </repositories>
+  <dependencies />
+  <plugins>
+    <runtime>
+      <plugin group='org.grails.plugins' name='hibernate' version='2.2.0' />
+    </runtime>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

@@ -22,11 +22,12 @@ log4j = {
 
     warn   'org.mortbay.log'
 	
-    warn 'org.dosredirect.AntiDOSService'
+    debug 'org.dosredirect.AntiDOSService',
+          'org.dosredirect.DosCheckController',
+          'org.dosredirect.Requests'
 }
 
-//The default throttle is 10 requests per second
-antiDOS.maxRequestsInWindow = 10
-antiDOS.timeWindowInSeconds = 1
+//The default antiDOS throttle is 10 requests per second
+antiDOS.maxRequestsInWindow = 1
+antiDOS.timeWindowInSeconds = 10
 antiDOS.redirectURL = "http://192.168.1.1"
-
