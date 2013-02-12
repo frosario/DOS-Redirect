@@ -19,13 +19,13 @@ class AntiDOSService implements InitializingBean {
         try {
             timeWindowInSeconds = grailsApplication.config.antiDOS.timeWindowInSeconds
         } catch (Exception e) {
-            LOGGER.error("Exception: " + e.getMessage())
+            LOGGER.warn("Exception: " + e.getMessage())
             timeWindowInSeconds = 1
         }
         try {
             maxRequestsInWindow = grailsApplication.config.antiDOS.maxRequestsInWindow
         } catch (Exception e) {
-            LOGGER.error("Exception: " + e.getMessage())
+            LOGGER.warn("Exception: " + e.getMessage())
             maxRequestsInWindow = 10
         }
         LOGGER.debug("timeWindowInSeconds is $timeWindowInSeconds")

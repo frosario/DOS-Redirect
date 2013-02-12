@@ -24,7 +24,6 @@ class DosCheckController {
         }
         else {
             antiDOSService.changeCount("increase",visitRecord)
-            render "Not a DOS Attack"
         }
     }
 }

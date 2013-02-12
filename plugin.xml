@@ -6,6 +6,7 @@
   <documentation>http://github.com/frosario/DOS-Redirect</documentation>
   <type>OrgDosRedirectGrailsPlugin</type>
   <resources>
+    <resource>org.dosredirect.DosFilterFilters</resource>
     <resource>org.dosredirect.DosCheckController</resource>
     <resource>org.dosredirect.Requests</resource>
     <resource>org.dosredirect.AntiDOSService</resource>
